@@ -55,11 +55,11 @@ class App extends Component {
               return (
                 <p key={item.id}>
                   {item.value}
+                  <input type="checkbox"/>
                 </p>
               );
             })}
         </div>
-        <p id="demo"></p>
       </div>
     );
   }

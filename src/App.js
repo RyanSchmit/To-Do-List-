@@ -1,68 +1,52 @@
-import React, { Component } from 'react';
-import './App.css';
+import { useState } from 'react'
+import Header from "./components/Header"
+import Tasks from "./components/Tasks"
+import "./index.css"
+import Add from "./components/Add"
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state={
-      newItem:"",
-      list:[]
+function App() {
+  const [tasks, setTasks] = useState([
+    {
+        id: 1,
+        txt: 'Laundry',
+        date: "12/05/2021",
+        reminder: true
+    },
+    {
+        id: 2,
+        txt: 'Clean room',
+        date: "01/05/2021",
+        reminder: false 
+    },
+    {
+        id: 3,
+        txt: 'Garbage',
+        date: "10/15/2021",
+        reminder: true
     }
+  ])
+
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTask = { id, ...task }
+    setTasks([...tasks, newTask])
   }
 
-  updateInput(key, value){
-    this.setState({
-      [key]: value
-    })
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((tasks) => tasks.id !== id))
   }
-  addItem() {
-    //create id for new items
-    const newItem={
-      id: 1 + Math.random(),
-      value: this.state.newItem.slice()
-    };
-    //copying current list
-    const list = [...this.state.list];
 
-    //add new item to list 
-    list.push(newItem);
+  const toggleReminder = (id) => {
+    setTasks(tasks.map((tasks) => tasks.id === id ? { ...tasks, reminder: !tasks.reminder } : tasks))
+  } 
 
-    //update list 
-    this.setState({
-      list,
-      newItem:""
-    })
-  }
-  
-  render() {
-      return (
-      <div className="main">
-        <h1 className="head">Get It Done</h1>
-        <div className="input">
-        <button>Hide/Show</button>
-        <br></br>
-        <input
-            type="text"
-            placeholder="Enter things you have to do"
-            className="thingsToDo"
-            value={this.state.newItem}
-            onChange={e => this.updateInput("newItem", e.target.value)}
-          />
-          <button onClick={() => this.addItem()}>Create List</button>
-          <br></br>
-            {this.state.list.map(item => {
-              return (
-                <p key={item.id}>
-                  {item.value}
-                  <input type="checkbox"/>
-                </p>
-              );
-            })}
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header />
+      <Add onAdd={addTask}/>
+      {tasks.length > 0 ? <Tasks onToggle={toggleReminder} onDelete={deleteTask} tasks={tasks}/> : 'No tasks, Add some'}
+    </div>
+  );
 }
 
 export default App;

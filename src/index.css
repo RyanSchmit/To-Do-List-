@@ -1,0 +1,29 @@
+.header {
+    text-align: center;
+}
+
+.btn {
+    background-color: black;
+    color: white;
+    width: 10%;
+    height: 30pt;
+    border: none;
+    margin-bottom: 10pt;
+}
+
+.taskName {
+    font-size: 150%;
+    margin-left: 5pt;
+    margin-right: 20pt;
+}
+
+.task {
+    background-color: lightgrey;
+}
+
+.task.reminder {
+    border-left: 7px solid green;
+}
+
+
+
